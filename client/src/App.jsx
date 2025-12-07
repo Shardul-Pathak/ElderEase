@@ -1,10 +1,27 @@
-// import Voice from "./components/Voice.jsx";
-import Home from "./pages/Home.jsx";
+import Voice from "./components/Voice.jsx";
 
-export default function App() {
-  return (
-    <>
-      <Home />
-    </>
-  )
+const App = () => {
+  const handleIntent = (intent) => {
+    console.log("Detected Intent:", intent);
+
+    if (intent.intent === "CREATE_REMINDER") {
+      // Save reminder to database
+    }
+
+    if (intent.intent === "LOG_SYMPTOM") {
+      // Save symptom log
+    }
+
+    if (intent.intent === "EMERGENCY") {
+      // Trigger emergency workflow
+    }
+
+    if (intent.intent === "NAVIGATE") {
+      // Navigate user
+    }
+  };
+
+  return <Voice onIntentDetected={handleIntent} />;
 };
+
+export default App;
