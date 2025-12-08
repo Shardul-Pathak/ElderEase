@@ -158,11 +158,11 @@ export default function Voice({ onIntentDetected }) {
 
                         <div className="mt-8 flex items-center">
                             <button onClick={confirmTranscript} className="px-10 py-5 mr-5 text-2xl bg-green-700 text-white rounded-xl border-none">
-                                ✔ Yes
+                                Yes
                             </button>
 
                             <button onClick={tryAgain} className="px-10 py-5 text-2xl bg-gray-500 text-white rounded-xl border-none">
-                                ✖ Try Again
+                                Try Again
                             </button>
                         </div>
                     </div>

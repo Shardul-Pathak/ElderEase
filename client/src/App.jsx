@@ -5,19 +5,15 @@ const App = () => {
     console.log("Detected Intent:", intent);
 
     if (intent.intent === "CREATE_REMINDER") {
-      // Save reminder to database
     }
 
     if (intent.intent === "LOG_SYMPTOM") {
-      // Save symptom log
     }
 
     if (intent.intent === "EMERGENCY") {
-      // Trigger emergency workflow
     }
 
     if (intent.intent === "NAVIGATE") {
-      // Navigate user
     }
   };
 
