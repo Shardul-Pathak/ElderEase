@@ -1,9 +1,11 @@
-import Dashboard from "./components/dashboard";
+
+import MoodInput from "./pages/Checkin";
+
 
 export default function App() {
   return (
     <>
-      <Dashboard />
+      <MoodInput />
     </>
   );
 }
