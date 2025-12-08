@@ -2,31 +2,36 @@
 
 import React from 'react';
 
-// --- Placeholder Data Structure (Simulates Reminder Data) ---
+// Define the new teal shade for Pending status (using a soft teal palette)
+const PENDING_CLASSES = 'bg-teal-50 text-teal-800 border-teal-500';
+
+// --- Placeholder Data Structure (Simulates Data from Backend) ---
 const mockReminder = {
     id: 101,
     time: '9:00 AM',
     title: 'Morning Medications',
-    status: 'Pending', // Test with 'Completed', 'Missed', or 'Pending'
+    status: 'Pending', 
     description: 'Take all pills with a full glass of water.',
 };
 
-export default function ReminderCard() {
-    const { time, title, status, description } = mockReminder;
+export default function ReminderCard({ reminder = mockReminder }) { 
+    const { time, title, status, description } = reminder;
 
-    // --- Conditional Styling Logic for Alarm Status ---
+    // --- Conditional Styling Logic ---
     let statusClasses = '';
-    let accentIcon = '🔔';
+    let accentIcon = '🕒';
     
-    // 1. Determine the color and icon based on the status field
     if (status === 'Completed') {
+        // Green for Success
         statusClasses = 'bg-green-100 text-green-800 border-green-500';
         accentIcon = '✅';
     } else if (status === 'Missed') {
+        // Red for Failure/Warning
         statusClasses = 'bg-red-100 text-red-800 border-red-500';
         accentIcon = '❌';
-    } else { // Pending (The "alarm is set" state)
-        statusClasses = 'bg-yellow-100 text-yellow-800 border-yellow-500';
+    } else { 
+        // Pending - Now uses the softer Teal shade
+        statusClasses = PENDING_CLASSES;
         accentIcon = '🕒';
     }
     
@@ -35,10 +40,11 @@ export default function ReminderCard() {
 
     return (
         <div className={`
-            bg-white p-5 md:p-6 shadow-md rounded-xl overflow-hidden
+            bg-white p-5 md:p-6 shadow-lg rounded-xl overflow-hidden
             border-l-8 ${borderColorClass} /* Prominent color stripe based on status */
-            transition duration-300 hover:shadow-lg
-            w-full max-w-lg mx-auto
+            transition duration-300 hover:shadow-2xl
+            w-full /* Removed max-w-lg for better grid integration */
+            mx-auto
         `}>
             {/* Header: Time, Icon, and Status Tag */}
             <div className="flex justify-between items-center mb-4 border-b pb-3">
@@ -51,10 +57,10 @@ export default function ReminderCard() {
                     </span>
                 </div>
                 
-                {/* Status Tag (The pill shape) */}
+                {/* Status Tag */}
                 <span className={`
                     px-4 py-1 text-sm font-bold uppercase rounded-full border-2 
-                    ${statusClasses} /* Apply the background and text color classes */
+                    ${statusClasses}
                 `}>
                     {status}
                 </span>
@@ -69,7 +75,7 @@ export default function ReminderCard() {
                 {description}
             </p>
 
-            {/* Action Button: Mark as Complete for Pending tasks */}
+            {/* Action Button */}
             <div className="text-right">
                 {status === 'Pending' && (
                     <button className="
