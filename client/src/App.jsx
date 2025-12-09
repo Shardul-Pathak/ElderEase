@@ -1,13 +1,15 @@
 
-import Settings from "./pages/Settings";
-import CheckInForm from "./pages/Settings";
+
+import CheckinCareTaker from "./pages/CheckinCareTaker";
+
+
 
 
 
 export default function App() {
   return (
     <>
-      <Settings/>
+      <CheckinCareTaker/>
     </>
   );
 }
