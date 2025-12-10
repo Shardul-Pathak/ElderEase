@@ -16,15 +16,38 @@ export default function Checkin() {
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-8 space-y-8">
 
         {/* Success Icon & Message */}
-        <div className="text-center">
-          <div className="text-6xl">✔️</div>
-          <h1 className="text-3xl font-bold text-teal-700 mt-4">
-            Check-In Completed!
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Thank you for updating your health today.
-          </p>
-        </div>
+        {/* Day, Date & Time (Left-Aligned with Graphics) */}
+<div className="text-left relative">
+
+ 
+
+  {/* Decorative Line */}
+  <div className="absolute -bottom-2 left-0 w-24 h-1 bg-teal-200 rounded-full"></div>
+
+  {/* Day */}
+  <h2 className="text-4xl font-bold text-teal-800 tracking-wide">
+    {new Date().toLocaleDateString("en-US", { weekday: "long" })}
+  </h2>
+
+  {/* Date */}
+  <p className="text-lg text-teal-700 mt-1">
+    {new Date().toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })}
+  </p>
+
+  {/* Time */}
+  <p className="text-md text-gray-600 mt-1">
+    {new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}
+  </p>
+
+</div>
+
 
         {/* Summary Card */}
         <div className="bg-[#e8f6f5] p-6 rounded-xl shadow-sm">
