@@ -4,7 +4,7 @@ import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import Setting from '../pages/CTSetting';
 import Logout from '../pages/Logout';
-import CheckList from '../pages/CTCheckInHistory';
+import CheckList from '../pages/CTCheckinHistory';
 import CheckIn from '../pages/CheckIn';
 import ProfileForm from '../pages/CTProfileForm';
 import Reminder from '../pages/CTReminder';
