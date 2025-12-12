@@ -1,6 +1,4 @@
-// client/src/components/ReminderForm.jsx
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const frequencyOptions = ['Daily', 'Weekly', 'One-Time'];
 
@@ -9,6 +7,7 @@ export default function ReminderForm({ onSubmit }) {
         time: '',
         frequency: 'Daily',
         title: '',
+        description: ''
     });
 
     const handleChange = (e) => {
@@ -18,22 +17,17 @@ export default function ReminderForm({ onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // This is where the data would be sent to Shardul's backend.
-        onSubmit(formData); 
+        onSubmit(e);
     };
 
     return (
         <form onSubmit={handleSubmit} className="p-6 bg-white shadow-2xl rounded-xl space-y-5 border-t-4 border-teal-600 w-full max-w-md mx-auto">
             <h2 className="text-2xl font-bold text-gray-800">Schedule New Reminder</h2>
-
-            {/* Title, Time, and Frequency are placed in a responsive grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                {/* 1. Time Input */}
                 <div>
                     <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-1">Time</label>
                     <input
-                        type="time"
+                        type="datetime-local"
                         name="time"
                         id="time"
                         value={formData.time}
@@ -43,7 +37,6 @@ export default function ReminderForm({ onSubmit }) {
                     />
                 </div>
 
-                {/* 2. Frequency Input */}
                 <div>
                     <label htmlFor="frequency" className="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
                     <select
@@ -61,7 +54,6 @@ export default function ReminderForm({ onSubmit }) {
                 </div>
             </div>
 
-            {/* 3. Reminder Title Input (Stretches full width) */}
             <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Reminder Title</label>
                 <input
@@ -76,7 +68,20 @@ export default function ReminderForm({ onSubmit }) {
                 />
             </div>
 
-            {/* Submit Button */}
+            <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Reminder Description</label>
+                <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    placeholder="e.g., Take the Green pill before Breakfast"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"
+                />
+            </div>
+
             <button
                 type="submit"
                 className="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition duration-150"

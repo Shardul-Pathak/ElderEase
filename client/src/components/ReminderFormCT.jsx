@@ -1,17 +1,14 @@
-// client/src/components/ReminderFormCT.jsx
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const frequencyOptions = ['Daily', 'Weekly', 'One-Time'];
-// Mock list of elderly users the caretaker manages
 const mockUsers = [
     { id: 'user1', name: 'Grandma Betty' },
     { id: 'user2', name: 'Uncle George' },
 ];
 
-export default function ReminderFormCT({ onSubmit }) {
+export default function ReminderFormCT() {
     const [formData, setFormData] = useState({
-        user: mockUsers[0].id, // Default to the first user
+        user: mockUsers[0].id,
         time: '',
         frequency: 'Daily',
         title: '',
@@ -24,15 +21,12 @@ export default function ReminderFormCT({ onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // The data now includes 'user' to tag the reminder correctly
-        onSubmit(formData); 
     };
 
     return (
         <form onSubmit={handleSubmit} className="p-6 bg-white shadow-2xl rounded-xl space-y-5 border-t-4 border-teal-600 w-full max-w-lg mx-auto">
             <h2 className="text-2xl font-bold text-gray-800">Schedule New Reminder</h2>
 
-            {/* NEW: 1. For Whom Select Input */}
             <div>
                 <label htmlFor="user" className="block text-sm font-medium text-gray-700 mb-1">For Whom</label>
                 <select
@@ -49,7 +43,6 @@ export default function ReminderFormCT({ onSubmit }) {
                 </select>
             </div>
 
-            {/* 2. Reminder Title Input */}
             <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Reminder Title</label>
                 <input
@@ -64,7 +57,6 @@ export default function ReminderFormCT({ onSubmit }) {
                 />
             </div>
 
-            {/* 3. Time and Frequency in a Responsive Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
                 <div>

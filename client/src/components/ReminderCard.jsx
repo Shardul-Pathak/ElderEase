@@ -1,41 +1,36 @@
-// client/src/components/ReminderCard.jsx
+import { useState } from 'react';
+import updateReminder from '../services/updateReminder';
 
-import React from 'react';
-
-// Define the new teal shade for Pending status (using a soft teal palette)
 const PENDING_CLASSES = 'bg-teal-50 text-teal-800 border-teal-500';
 
-// --- Placeholder Data Structure (Simulates Data from Backend) ---
-const mockReminder = {
-    id: 101,
-    time: '9:00 AM',
-    title: 'Morning Medications',
-    status: 'Pending', 
-    description: 'Take all pills with a full glass of water.',
-};
-
-export default function ReminderCard({ reminder = mockReminder }) { 
-    const { time, title, status, description } = reminder;
-
-    // --- Conditional Styling Logic ---
+export default function ReminderCard(props) { 
+    const [reminder, setReminder] = useState(props.reminder);
+    const date = new Date(reminder.time);
+    const formattedTime = date.toLocaleString("en-IN", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
     let statusClasses = '';
     let accentIcon = '🕒';
+
+    const handleComplete = async () => {
+        await updateReminder(reminder._id);
+    }
     
-    if (status === 'Completed') {
-        // Green for Success
+    if (reminder.status === 'Completed') {
         statusClasses = 'bg-green-100 text-green-800 border-green-500';
         accentIcon = '✅';
-    } else if (status === 'Missed') {
-        // Red for Failure/Warning
+    } else if (reminder.status === 'Missed') {
         statusClasses = 'bg-red-100 text-red-800 border-red-500';
         accentIcon = '❌';
     } else { 
-        // Pending - Now uses the softer Teal shade
         statusClasses = PENDING_CLASSES;
         accentIcon = '🕒';
     }
-    
-    // Extract the primary border color class (e.g., 'border-green-500') 
+
     const borderColorClass = statusClasses.split(' ')[2]; 
 
     return (
@@ -46,46 +41,40 @@ export default function ReminderCard({ reminder = mockReminder }) {
             w-full /* Removed max-w-lg for better grid integration */
             mx-auto
         `}>
-            {/* Header: Time, Icon, and Status Tag */}
             <div className="flex justify-between items-center mb-4 border-b pb-3">
-                
-                {/* Time Display with Status Icon */}
                 <div className="flex items-center space-x-3">
-                    <span className="text-3xl">{accentIcon}</span>
-                    <span className="text-3xl font-extrabold text-gray-900">
-                        {time}
+                    <span className="text-2xl">{accentIcon}</span>
+                    <span className="text-2xl font-extrabold text-gray-900">
+                        {formattedTime}
                     </span>
                 </div>
-                
-                {/* Status Tag */}
+
                 <span className={`
                     px-4 py-1 text-sm font-bold uppercase rounded-full border-2 
                     ${statusClasses}
                 `}>
-                    {status}
+                    {reminder.status}
                 </span>
             </div>
 
-            {/* Title and Description */}
             <h3 className="text-xl font-bold text-gray-800 mb-2">
-                {title}
+                {reminder.title}
             </h3>
 
             <p className="text-sm text-gray-500 mb-4">
-                {description}
+                {reminder.description}
             </p>
 
-            {/* Action Button */}
             <div className="text-right">
-                {status === 'Pending' && (
-                    <button className="
+                {reminder.status === 'Pending' && (
+                    <button onClick={handleComplete} className="
                         bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg
                         hover:bg-teal-700 transition duration-150
                     ">
                         Mark as Taken / Complete
                     </button>
                 )}
-                {status !== 'Pending' && (
+                {reminder.status !== 'Pending' && (
                     <button className="text-gray-500 font-semibold text-sm hover:text-gray-700 transition">
                         View History
                     </button>

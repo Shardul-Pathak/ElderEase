@@ -1,43 +1,41 @@
-// client/src/pages/EmergencyContacts.jsx (Correction Applied)
-
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import NotAuthorized from '../components/NotAuthorized'
 import ContactCard from '../components/ContactCard'; 
-import ContactForm from '../components/ContactForm'; 
+import ContactForm from '../components/ContactForm';
+import getAllContacts from '../services/getAllContacts';
 
-export default function EmergencyContacts() {
+export default function EmergencyContacts({isLoggedIn}) {
     const [isAddingNew, setIsAddingNew] = useState(false);
-    
-    // Updated Placeholder state for all emergency contacts:
-    const [contactsList, setContactsList] = useState([
-        { id: 1, name: 'Dr. Amelia Chen', role: 'Primary Care Physician', phone: '555-123-4567', canMessage: true }, // Removed canCall: true
-        { id: 2, name: 'Sarah Johnson', role: 'Daughter/Caregiver', phone: '555-987-6543', canMessage: true },      // Removed canCall: true
-        { id: 3, name: 'Nurse David Kim', role: 'Home Health Nurse', phone: '555-333-2222', canMessage: true },       // Removed canCall: false/true
-    ]);
-    // ... (rest of the component logic remains the same)
-    
-    // Handler for the SOS button
+    const [contactsList, setContactsList] = useState([]);
+
+    useEffect(() => {
+        const getData = async () => {
+            const allContacts = await getAllContacts();
+            setContactsList(allContacts);
+        }
+        getData();
+    }, [isAddingNew])
+
     const handleSOSPress = () => {
         alert('🚨 SOS triggered! Sending urgent notifications to all contacts...');
     };
 
-    const handleFormSubmit = (newContactData) => {
-        // Temporarily add the new contact to the local list
-        const newContact = {
-            ...newContactData,
-            id: Date.now(), 
-            canMessage: true, // Defaulting message permission
-        };
-        setContactsList(prevList => [...prevList, newContact]);
-        setIsAddingNew(false); 
-    };
+    if (!isLoggedIn) {
+        return (
+            <NotAuthorized />
+        );
+    }
 
     return (
         <div className="p-4 md:p-8 max-w-6xl mx-auto min-h-screen bg-gray-50">
             <h1 className="text-4xl font-extrabold text-teal-600 mb-8 text-center md:text-left">
                 🚨 EMERGENCY CONTACTS
             </h1>
-            
-            {/* --- 1. SOS Button Section --- */}
+            <a href='/home'>
+                <button className='text-white text-l bg-teal-600 p-2 mb-4 rounded-2xl hover:bg-teal-800'>
+                    Go Back
+                </button>
+            </a>
             <div className="flex justify-center mb-10">
                 <div className="bg-orange-50 p-6 rounded-xl shadow-lg border-t-4 border-red-500 text-center max-w-sm">
                     <button 
@@ -52,7 +50,6 @@ export default function EmergencyContacts() {
                 </div>
             </div>
 
-            {/* --- 2. Add New Contact Button --- */}
             <div className="mb-8 flex justify-center">
                 <button
                     onClick={() => setIsAddingNew(!isAddingNew)}
@@ -62,20 +59,17 @@ export default function EmergencyContacts() {
                 </button>
             </div>
 
-            {/* --- 3. Conditional Form View --- */}
             {isAddingNew && (
                 <div className="mb-10">
-                    <ContactForm onSubmit={handleFormSubmit} />
+                    <ContactForm setIsAddingNew={setIsAddingNew} setContactsList={setContactsList} />
                 </div>
             )}
-            
-            {/* --- 4. Contact List View --- */}
+
             <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Your Trusted Contacts</h2>
-                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {contactsList.map(contact => (
-                        <ContactCard key={contact.id} contact={contact} /> 
+                    {contactsList.map((contact, idx) => (
+                        <ContactCard key={idx} contactDetail={{canMessage: true, canCall: true,...contact}} /> 
                     ))}
                 </div>
             </section>
