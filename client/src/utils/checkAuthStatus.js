@@ -1,0 +1,19 @@
+const checkAuthStatus = async (setIsLoggedIn, setRole) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/verify`, {
+        method: 'GET',
+        credentials: 'include', 
+        cache: "no-store",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const res = await response.json()
+    if (res.message==='Token is valid') {
+        setIsLoggedIn(true);
+        setRole(res.role);
+    } 
+    else {
+        setIsLoggedIn(false);
+    }
+};
+export default checkAuthStatus;

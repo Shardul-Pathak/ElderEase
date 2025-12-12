@@ -119,7 +119,7 @@ export default function Voice({ onIntentDetected }) {
     const extractNavigationTarget = (text) => {
         if (text.includes("reminder")) return "reminders";
         if (text.includes("emergency")) return "emergency";
-        if (text.includes("check in")) return "check-in";
+        if (text.includes("check in")) return "checkin";
         return "home";
     };
 
@@ -133,7 +133,7 @@ export default function Voice({ onIntentDetected }) {
         <>
             <div className="flex justify-center text-center p-20">
                 {!isListening && !transcript && (
-                    <button onClick={startListening} className="rounded-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 shadow-2xs shadow-black">
+                    <button onClick={startListening} className="rounded-full bg-blue-700 hover:bg-blue-500 text-white font-bold py-4 px-4 shadow-2xs shadow-black">
                         <MutedMicIcon />
                     </button>
                 )}
@@ -146,32 +146,71 @@ export default function Voice({ onIntentDetected }) {
                     </>
                 )}
 
-                {transcript && !confirmed && (
-                    <div>
-                        <div className="text-[28px] font-bold mb-5 text-black">
-                            You said:
-                        </div>
+                {transcript && (
+                <div
+                    className="
+                        fixed inset-0 z-50
+                        bg-black/40 backdrop-blur-sm
+                        flex items-center justify-center
+                        p-4
+                        animate-[fadeIn_.3s_ease]
+                    "
+                >
+                    <div
+                        className="
+                            bg-white rounded-3xl shadow-2xl
+                            p-6 sm:p-8 w-full max-w-lg
+                            animate-[zoom_.3s_ease]
+                        "
+                    >
+                        {!confirmed && (
+                            <>
+                                <h2 className="text-[26px] sm:text-[30px] font-extrabold text-[#0a7a7a] mb-4 text-center">
+                                    You said
+                                </h2>
 
-                        <div className="bg-[#f1f1f1] p-5 rounded-xl text-[26px]">
-                            “{transcript}”
-                        </div>
+                                <div className="bg-[#f1f1f1] p-5 rounded-2xl text-[22px] sm:text-[26px] font-medium text-gray-800 text-center mb-8 border border-gray-300">
+                                    “{transcript}”
+                                </div>
 
-                        <div className="mt-8 flex items-center">
-                            <button onClick={confirmTranscript} className="px-10 py-5 mr-5 text-2xl bg-green-700 text-white rounded-xl border-none">
-                                Yes
-                            </button>
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <button
+                                        onClick={confirmTranscript}
+                                        className="
+                                            px-10 py-4 text-xl sm:text-2xl font-semibold
+                                            bg-green-700 text-white
+                                            rounded-xl shadow-md
+                                            hover:scale-105 active:scale-95
+                                            transition-all duration-200
+                                        "
+                                    >
+                                        Yes
+                                    </button>
 
-                            <button onClick={tryAgain} className="px-10 py-5 text-2xl bg-gray-500 text-white rounded-xl border-none">
-                                Try Again
-                            </button>
-                        </div>
+                                    <button
+                                        onClick={tryAgain}
+                                        className="
+                                            px-10 py-4 text-xl sm:text-2xl font-semibold
+                                            bg-gray-600 text-white
+                                            rounded-xl shadow-md
+                                            hover:scale-105 active:scale-95
+                                            transition-all duration-200
+                                        "
+                                    >
+                                        Try Again
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {confirmed && (
+                            <div className="font-bold text-3xl py-10 text-center animate-pulse text-[#0a7a7a]">
+                                Processing…
+                            </div>
+                        )}
                     </div>
-                )}
-                {confirmed && (
-                    <div className="font-bold text-2xl">
-                        Processing…
-                    </div>
-                )}
+                </div>
+            )}
             </div>
         </>
     )

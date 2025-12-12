@@ -1,25 +1,39 @@
-import dotenv from "dotenv"
+import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config();
 
-import express from "express"
-import cors from "cors"
-import { connect } from "mongoose"
+import express from 'express'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import connectDB from './utils/connectDB.js'
+import authRoutes from './routes/authRoutes.js'
+import emergencyRoutes from './routes/emergencyRoutes.js'
+import profileRoutes from './routes/profileRoutes.js'
+import logRoutes from './routes/logRoutes.js'
+import reminderRoutes from './routes/reminderRoutes.js';
+ 
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.use(cors({
+    origin: "",
+    credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-const app = express()
-const PORT = process.env.PORT || 3000
-connect(process.env.MONGODB_URI || "mongodb://localhost:27017/ElderEase")
-  .then(() => console.log("DB Connected"))
-  .catch((err) => console.error("Connection error:", err))
+connectDB();
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use('/users', authRoutes);
+app.use('/emergency', emergencyRoutes);
+app.use('/profile', profileRoutes);
+app.use('/logs', logRoutes);
+app.use('/reminder', reminderRoutes);
 
-app.get("/", (req, res) => {
-  res.send("API is running")
-})
+app.get('/', (req, res) => {
+    res.end('API is running...');
+});
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`)
-})
+    console.log(`Server is running on port ${PORT}`);
+});
