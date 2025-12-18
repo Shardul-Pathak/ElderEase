@@ -46,7 +46,7 @@ export default function LandingPage() {
 
                         <div className="hidden lg:block">
                             <div className="bg-gray-100 h-96 rounded-2xl flex items-center justify-center text-gray-500">
-                                [Oldie ki photo?]
+                                <img src='/OldLadyImage.png' className='h-128'/>
                             </div>
                         </div>
                     </div>

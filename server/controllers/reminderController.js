@@ -58,7 +58,7 @@ export async function getNames (req, res) {
         const user = await Users.findById(id);
         const associatedUser = await Users.findById(user.associatedElders[0]);
         const names = {
-            id: associatedUser._id, 
+            id: user.associatedElders[0], 
             name: associatedUser.name
         }
         res.status(200).json({names: names});
